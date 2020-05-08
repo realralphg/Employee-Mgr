@@ -1,0 +1,74 @@
+<template>
+    <div id='new-employee'>
+        <h3>New Employee</h3>
+        <div class="row">
+            <form @submit.prevent="saveForm" class="col s12">
+                <div class="row">
+                    <div class="input-field col s12">
+                        <input type="text" v-model="employee_id" required>
+                        <label> Employee ID#</label>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="input-field col s12">
+                        <input type="text" v-model="name" required>
+                        <label> Employee Name</label>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="input-field col s12">
+                        <input type="text" v-model="dept" required>
+                        <label> Department</label>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="input-field col s12">
+                        <input type="text" v-model="position" required>
+                        <label> Position</label>
+                    </div>
+                </div>
+
+                <button class="btn" type="submit"> Save </button>
+                <router-link to="/" class="btn red">Cancel</router-link>
+            </form>
+        </div>
+    </div>
+</template>
+
+<script>
+    import db from './firebaseInit'
+    export default {
+        data(){
+            return{
+                employee_id: null,
+                name: null,
+                dept: null,
+                position: null
+            }
+        }, 
+
+        methods: {
+            saveForm(){
+                db.collection('employees').add({
+                    employee_id: this.employee_id,
+                    name: this.name,
+                    dept: this.dept,
+                    position: this.position
+                }).then(() => { 
+                    this.$router.push('/')
+                })
+            }
+        }
+    
+    }
+</script>
+
+<style scoped>
+button{
+    margin-right: 10px
+}
+
+</style>
